@@ -16,7 +16,7 @@ import {
 
 
 import { Logo } from './../components'
-import firebase from './../config/firebase'
+import firebase, { persistenceMode } from './../config/firebase'
 
 const validationSchema = yup.object().shape({
   email: yup.string().email('E-mail inválido').required('Prenchimento obrigatório'),
@@ -34,15 +34,20 @@ export default function Home() {
     isSubmitting
   } = useFormik({
     onSubmit: async (values, form) => {
+     firebase.auth().setPersistence(persistenceMode)
+
      const user = await firebase.auth().signInWithEmailAndPassword(values.email, values.password)
      console.log(user)
   },
+
     validationSchema,
     initialValues:{
       email: '',
       password: ''
     }
   })
+
+
   return (
     
     <Container p={4} centerContent>
@@ -59,7 +64,7 @@ export default function Home() {
         <FormLabel>
          Insira seu e-mail
         </FormLabel>
-        <Input placeholder type="email"  value={values.email} onChange={handleChange} onBlur={handleBlur}/>
+        <Input placeholder='email@example.com' type="email"  value={values.email} onChange={handleChange} onBlur={handleBlur}/>
         {touched.email && <FormHelperText textColor="#e74c3c">
           {errors.email}   
         </FormHelperText>}
@@ -69,7 +74,7 @@ export default function Home() {
         <FormLabel>
          Insira sua senha
         </FormLabel>
-        <Input placeholder type="password" value={values.password} onChange={handleChange} onBlur={handleBlur}/>
+        <Input placeholder='' type="password" value={values.password} onChange={handleChange} onBlur={handleBlur}/>
         {touched.password && <FormHelperText textColor="#e74c3c">   
         {errors.password}
         </FormHelperText>}
