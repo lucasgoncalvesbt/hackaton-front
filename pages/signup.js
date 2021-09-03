@@ -19,8 +19,9 @@ import { Logo } from './../components'
 import firebase from './../config/firebase'
 
 const validationSchema = yup.object().shape({
+  username: yup.string().required('Prenchimento obrigatório'),
   email: yup.string().email('E-mail inválido').required('Prenchimento obrigatório'),
-  password: yup.string().required('Prenchimento obrigatório'),
+  password: yup.string().required('Prenchimento obrigatório')
 })
  
 export default function Home() {
@@ -34,11 +35,12 @@ export default function Home() {
     isSubmitting
   } = useFormik({
     onSubmit: async (values, form) => {
-     const user = await firebase.auth().signInWithEmailAndPassword(values.email, values.password)
+     const user = await firebase.auth().createUserWithEmailAndPassword(values.email, values.password)
      console.log(user)
   },
     validationSchema,
     initialValues:{
+      username: '',
       email: '',
       password: ''
     }
@@ -50,11 +52,21 @@ export default function Home() {
       
     <Box p={4} mt={8}>
         <Text >
-          Agende sua data e horário
+          Cadastre-se aqui!
         </Text>
     </Box>
 
     <Box width="70%">
+      <FormControl id="username" isRequired p={4}>
+        <FormLabel>
+         Username
+        </FormLabel>
+        <Input placeholder type="username" value={values.username} onChange={handleChange} onBlur={handleBlur}/>
+        {touched.username && <FormHelperText textColor="#e74c3c">   
+        {errors.username}
+        </FormHelperText>}
+      </FormControl>
+
       <FormControl id="email" isRequired p={4}>
         <FormLabel>
          Insira seu e-mail
@@ -76,12 +88,12 @@ export default function Home() {
       </FormControl>
     </Box>
      
-      <Button colorScheme="blue" width="64%" mt={5} alignItems="center" onClick={handleSubmit} isLoading={isSubmitting}>
+      <Button colorScheme="blue" width="64%" mt={8} alignItems="center" onClick={handleSubmit} isLoading={isSubmitting}>
         Entrar
       </Button>
-
-      <Link href="/signup">Não tem uma conta? Cadastre-se aqui</Link>
     
+      <Link href="/">Já tem uma conta? Acesse aqui!</Link>
+
     </Container>
     
   )
