@@ -13,6 +13,8 @@
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@svgr/webpack": "^5.5.0",
+    "firebase": "^9.0.1",
+    "firebase-admin": "^9.11.1",
     "formik": "^2.2.9",
     "framer-motion": "^4",
     "next": "11.1.2",
