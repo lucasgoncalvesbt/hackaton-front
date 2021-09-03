@@ -71,7 +71,7 @@ export default function Home() {
         <FormLabel>
          Insira seu e-mail
         </FormLabel>
-        <Input placeholder type="email"  value={values.email} onChange={handleChange} onBlur={handleBlur}/>
+        <Input placeholder='example@gmail.com' type="email"  value={values.email} onChange={handleChange} onBlur={handleBlur}/>
         {touched.email && <FormHelperText textColor="#e74c3c">
           {errors.email}   
         </FormHelperText>}
